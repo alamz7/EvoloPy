@@ -66,7 +66,10 @@ def selector(algo, func_details, popSize, Iter):
     elif algo == "DE":
         x = de.DE(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     else:
-       return null
+       #return null   
+       #Gives error message "Null is not defined".
+       #Hence using the following line of coee instead.
+       return None
     return x
 
 
@@ -144,7 +147,12 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
                             writer.writerow(header)
                             Flag_details = True  # at least one experiment
                         executionTime[k] = x.executionTime
-                        a = numpy.concatenate([[x.optimizer, x.objfname, x.executionTime, x.bestIndividual], x.convergence])
+                        
+                        #a = numpy.concatenate([[x.optimizer, x.objfname, x.executionTime, x.bestIndividual], x.convergence])
+                        #The above line used to cause teh error as "ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part."
+                        # Therefroe, the following code is being used instead of the above one. The code is sugggested by Googe Bard after trial and error. 
+                        a = list([[x.optimizer, x.objfname, x.executionTime, x.bestIndividual], x.convergence])
+                    
                         writer.writerow(a)
                     out.close()
 
